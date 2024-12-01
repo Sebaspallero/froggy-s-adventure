@@ -2,6 +2,7 @@ package entities;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 
 public abstract class Entity {
 
@@ -33,6 +34,16 @@ public abstract class Entity {
     public abstract void takeDamage(int damage);
 
     // Métodos comunes
+    public  BufferedImage loadSpriteSheet(String path) {
+        // Cargar el spritesheet desde un archivo
+        try {
+            return javax.imageio.ImageIO.read(getClass().getResource(path));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
     // Obtener la hitbox para detectar colisiones
     public Rectangle getHitbox(){

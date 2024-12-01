@@ -1,28 +1,56 @@
 package entities.player;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.util.HashSet;
 import java.util.Set;
 
 import entities.Entity;
 import entities.EntityState;
+import manager.AnimationManager;
 
 public class Player extends Entity {
 
     private final Set<Integer> pressedKeys = new HashSet<>(); // Para almacenar las teclas presionadas
     private int health;
     private double invulnerabilityTimer;
+    private AnimationManager walkingAnimation;
+    private AnimationManager idleAnimation;
+    private AnimationManager currentAnimation;
 
     public Player(int x, int y, int width, int height, EntityState currentState) {
         super(x, y, width, height, currentState);
         this.health = 100;
         this.invulnerabilityTimer = 0;
-    }
+
+        BufferedImage walkingSheet = loadSpriteSheet("/resources/player/player_run.png");
+        BufferedImage idleSheet = loadSpriteSheet("/resources/player/player_idle.png");
+          
+        // Crear animaciones con los sprites cargados
+        walkingAnimation = new AnimationManager(walkingSheet, 32, 32, 12, 50, 0);
+        idleAnimation = new AnimationManager(idleSheet, 32, 32, 11, 50, 0);
+        currentAnimation = idleAnimation;
+    }   
 
     @Override
     public void update(double deltaTime) {
+
+        // Actualizar la animación según el estado
+        switch (currentState) {
+            case WALKING:
+                currentAnimation = walkingAnimation;
+                break;
+            case IDLE:
+                currentAnimation = idleAnimation;
+                break;
+            default:
+                currentAnimation = idleAnimation;
+                break;
+        }
+
+        // Actualizar la animación activa
+        currentAnimation.update();
 
         // Reducir temporizador de invulnerabilidad
         if (invulnerabilityTimer > 0) {
@@ -84,6 +112,7 @@ public class Player extends Entity {
         }
     }
 
+
     @Override
     public void takeDamage(int amount) {
         if (currentState == EntityState.HIT || currentState == EntityState.DEAD || invulnerabilityTimer > 0) return;
@@ -97,27 +126,7 @@ public class Player extends Entity {
 
     @Override
     public void render(Graphics g) {
-        switch (currentState) {
-            case IDLE:
-                g.setColor(Color.BLUE);
-                break;
-            case WALKING:
-                g.setColor(Color.GREEN);
-                break;
-            case JUMPING:
-                g.setColor(Color.MAGENTA);
-                break;
-            case DEAD:
-                g.setColor(Color.RED);
-                break;
-            case HIT:
-                g.setColor(Color.ORANGE);
-            default:
-                break;
-        }
-
-        // Dibujar el jugador como un rectángulo
-        g.fillRect(x, y, width, height);
+        currentAnimation.draw(g, x, y, width, height);
     }
 
     public void handleKeyPressed(KeyEvent e) {
