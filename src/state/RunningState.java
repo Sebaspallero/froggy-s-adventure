@@ -1,6 +1,4 @@
 package state;
-
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 
@@ -17,13 +15,12 @@ public class RunningState implements GameStateHandler{
 
     @Override
     public void update(double deltaTime) {
-        System.out.println("Updating RUNNING STATE");
+       
     }
 
     @Override
     public void render(Graphics g) {
-        g.setColor(Color.GREEN);
-        g.fillOval(100, 100, 50, 50);
+        
     }
 
     @Override

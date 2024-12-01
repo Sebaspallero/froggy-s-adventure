@@ -2,7 +2,9 @@ package main;
 
 import javax.swing.JPanel;
 
-import entities.Player;
+import entities.EntityState;
+import entities.enemies.Enemy;
+import entities.player.Player;
 import handlers.KeyHandler;
 import manager.EntityManager;
 import manager.GameStateManager;
@@ -18,15 +20,21 @@ public class GamePanel extends JPanel implements Runnable {
 
     private GameStateManager gameStateManager;
     private EntityManager entityManager;
+    private Player player;
+    private Enemy enemy;
 
     public GamePanel() {
         this.setBackground(Color.BLACK);
         this.setFocusable(true);
 
-        Player player = new Player(150, 150, 32, 32);
+        player = new Player(150, 400, 32, 32, EntityState.IDLE);
+        enemy = new Enemy(400, 400, 50, 50, 100, EntityState.WALKING);
+
 
         gameStateManager = new GameStateManager();
         entityManager = new EntityManager(player);
+
+        entityManager.addEntity(enemy);
         this.addKeyListener(new KeyHandler(this));
     }
 
@@ -42,9 +50,11 @@ public class GamePanel extends JPanel implements Runnable {
             lastTime = currentTime;
 
             gameStateManager.update(deltaTime); // Lógica del juego
+
             if (gameStateManager.getCurrentState() == GameState.RUNNING) {
                 entityManager.update(deltaTime); // Actualizar entidades
             }
+
             repaint(); // Renderizado
 
             long elapsedTime = System.nanoTime() - currentTime;
@@ -68,7 +78,12 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void handleKeyInput(KeyEvent e) {
-        gameStateManager.handleInput(e); // Delegar la entrada al gestor de estados
+        gameStateManager.handleInput(e);
+        player.handleKeyPressed(e);
+    }
+
+    public void handleKeyReleased(KeyEvent e){
+        player.handleKeyReleased(e);
     }
 
     @Override

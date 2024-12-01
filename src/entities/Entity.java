@@ -12,35 +12,35 @@ public abstract class Entity {
     protected int velocityX;
     protected int velocityY;
     protected boolean active;
+    protected double hitTimer;
+    protected EntityState currentState;
 
-    public Entity(int x, int y, int width, int height) {
+    public Entity(int x, int y, int width, int height, EntityState currentState) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+        this.currentState = currentState;
         this.velocityX = 0;
         this.velocityY = 0;
         this.active = true;
+        this.hitTimer = 0;
     }
 
-     // Métodos abstractos para que las clases derivadas los implementen
+    // Métodos abstractos para que las clases derivadas los implementen
     public abstract void update(double deltaTime);
     public abstract void render(Graphics g);
+    public abstract void takeDamage(int damage);
 
     // Métodos comunes
 
-    // Obtener el rectángulo delimitador para detectar colisiones
-    public Rectangle getBounds(){
+    // Obtener la hitbox para detectar colisiones
+    public Rectangle getHitbox(){
         return new Rectangle(x, y, width, height);
     }
 
-     // Verificar colisiones con otra entidad
-    public boolean intersects(Entity other){
-        return this.getBounds().intersects(other.getBounds());
-    }
 
     //Getters - Setters
-
     public int getX() {
         return x;
     }
@@ -65,11 +65,11 @@ public abstract class Entity {
         this.width = width;
     }
 
-    public int getHeigth() {
+    public int getHeight() {
         return height;
     }
 
-    public void setHeigth(int height) {
+    public void setHeight(int height) {
         this.height = height;
     }
 
@@ -96,4 +96,18 @@ public abstract class Entity {
     public void setActive(boolean active) {
         this.active = active;
     }
+
+    public double getHitTimer() {
+        return hitTimer;
+    }
+
+    public void setHitTimer(double hitTimer) {
+        this.hitTimer = hitTimer;
+    }
+
+
+    //Getters - Setters
+    
+
+    
 }

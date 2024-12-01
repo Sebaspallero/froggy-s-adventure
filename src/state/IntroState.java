@@ -17,14 +17,14 @@ public class IntroState implements GameStateHandler{
 
     @Override
     public void update(double deltaTime) {
-        System.out.println("Updating INTRO STATE");
+        
     }
 
     @Override
     public void render(Graphics g) {
         g.setColor(Color.WHITE);
-        g.drawString("Bienvenido al Juego", 100, 100);
-        g.drawString("Presiona ENTER para empezar", 100, 150);
+        g.drawString("Bienvenido al Juego", 300, 200);
+        g.drawString("Presiona SPACE para empezar", 270, 250);
     }
 
     @Override

@@ -17,7 +17,7 @@ public class GameOverState implements GameStateHandler{
 
     @Override
     public void update(double deltaTime) {
-        System.out.println("UPDATING GAME OVER STATE");
+        
     }
 
     @Override

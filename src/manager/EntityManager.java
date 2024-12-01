@@ -1,7 +1,7 @@
 package manager;
 
 import entities.Entity;
-import entities.Player;
+import entities.player.Player;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -26,6 +26,10 @@ public class EntityManager {
             Entity entity = iterator.next();
             if (entity.isActive()) {
                 entity.update(deltaTime);
+                // Detectar colisión con el jugador
+                if (CollisionManager.isColliding(player, entity)) {
+                    CollisionManager.handleCollision(player, entity);
+                }
             }else{
                 // Eliminar entidades inactivas
                 iterator.remove();

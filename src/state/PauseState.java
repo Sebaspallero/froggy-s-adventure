@@ -17,7 +17,7 @@ public class PauseState implements GameStateHandler{
 
     @Override
     public void update(double deltaTime) {
-        System.out.println("Updating PAUSE STATE");
+        
     }
 
     @Override
