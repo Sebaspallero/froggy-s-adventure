@@ -56,7 +56,7 @@ public class Enemy extends Entity{
 
     @Override
     public void takeDamage(int damage) {
-        if (currentState == EntityState.HIT) return; // Evitar aplicar daño repetidamente
+        if (currentState == EntityState.HIT || currentState == EntityState.DEAD) return; // Evitar aplicar daño repetidamente
         health -= damage;
         if (health <= 0) {
             currentState = EntityState.DEAD;

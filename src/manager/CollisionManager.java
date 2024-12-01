@@ -26,13 +26,16 @@ public class CollisionManager {
 
     //Que hacemos cuando se colisiona
     public static void handleCollision(Player player, Entity entity){
+        if (!player.isActive()) return;
         if (entity instanceof Enemy) {
             Enemy enemy = (Enemy) entity;
+            if(!enemy.isActive()) return;
             if (isCollidingFromAbove(player, entity)) {
                 enemy.takeDamage(50);
                 player.setVelocityY(-200);
             }else{
                 System.out.println("colision normal con enemigo");
+                player.takeDamage(50);
             }
         }
     }
