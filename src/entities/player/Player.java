@@ -82,11 +82,13 @@ public class Player extends Entity {
     private void handleMovement(double deltaTime) {
         // Movimiento horizontal
         if (pressedKeys.contains(KeyEvent.VK_A)) {
-            velocityX = -250; // Velocidad hacia la izquierda
+            velocityX = -230; // Velocidad hacia la izquierda
             x += velocityX * deltaTime;
+            currentAnimation.setFlip(true);
         } else if (pressedKeys.contains(KeyEvent.VK_D)) {
-            velocityX = 250; // Velocidad hacia la derecha
+            velocityX = 230; // Velocidad hacia la derecha
             x += velocityX * deltaTime;
+            currentAnimation.setFlip(false);
         } else if (currentState != EntityState.JUMPING) {
             velocityX = 0; // Detener movimiento horizontal si no se está saltando
         }

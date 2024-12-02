@@ -2,6 +2,7 @@ package manager;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 
 public class AnimationManager {
 
@@ -15,6 +16,7 @@ public class AnimationManager {
     private int loopCount; // número de loops deseados (0 = infinito)
     private int currentLoop = 0; // número de ciclos completos
     private long frameDelayInNanos; // Almacenamos el frameDelay en nanosegundos para mayor precisión
+    private boolean flip = false; // Variable que indica si la animación debe ser invertida
 
     // Constructor con la posibilidad de limitar el número de loops
     public AnimationManager(Image spriteSheet, int frameWidth, int frameHeight, int frameCount, long frameDelay, int loopCount) {
@@ -53,7 +55,13 @@ public class AnimationManager {
         int sourceX2 = sourceX1 + frameWidth;
         int sourceY2 = sourceY1 + frameHeight;
 
-        g.drawImage(spriteSheet, x, y, x + width, y + height, sourceX1, sourceY1, sourceX2, sourceY2, null); // Dibuja el frame
+        // Si el flip está activado, invertimos la imagen
+        if (flip) {
+            BufferedImage flippedImage = flipImage((BufferedImage) spriteSheet);
+            g.drawImage(flippedImage, x, y, x + width, y + height, sourceX1, sourceY1, sourceX2, sourceY2, null);
+        } else {
+            g.drawImage(spriteSheet, x, y, x + width, y + height, sourceX1, sourceY1, sourceX2, sourceY2, null); // Dibuja el frame
+        }
     }
 
     // Método que nos indica si la animación ha terminado (basado en los loops)
@@ -70,5 +78,23 @@ public class AnimationManager {
     // Getter para el frame actual
     public int getCurrentFrame() {
         return this.currentFrame;
+    }
+
+    // Método para voltear (flip) la imagen
+    private BufferedImage flipImage(BufferedImage img) {
+        int width = img.getWidth();
+        int height = img.getHeight();
+        BufferedImage flippedImage = new BufferedImage(width, height, img.getType());
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                flippedImage.setRGB(width - i - 1, j, img.getRGB(i, j));
+            }
+        }
+        return flippedImage;
+    }
+
+    // Método para activar o desactivar el flip de la imagen
+    public void setFlip(boolean flip) {
+        this.flip = flip;
     }
 }

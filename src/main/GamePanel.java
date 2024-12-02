@@ -28,7 +28,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
 
         player = new Player(150, 400, 32, 32, EntityState.IDLE);
-        enemy = new Enemy(400, 400, 50, 50, 100, EntityState.WALKING);
+        enemy = new Enemy(400, 400, 36, 30, EntityState.WALKING);
 
 
         gameStateManager = new GameStateManager();
