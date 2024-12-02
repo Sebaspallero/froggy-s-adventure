@@ -33,6 +33,7 @@ public class CollisionManager {
             if (isCollidingFromAbove(player, entity)) {
                 enemy.takeDamage(50);
                 player.setVelocityY(-200);
+                player.setY(entity.getHitbox().y - player.getHitbox().height); // Posicionamos al jugador justo encima del enemigo
             }else{
                 System.out.println("colision normal con enemigo");
                 player.takeDamage(50);
